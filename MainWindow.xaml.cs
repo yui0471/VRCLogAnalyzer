@@ -45,8 +45,8 @@ namespace VRCLogAnalyzer
 
             //デフォルト表示は、直近1週間
             DateTime today = DateTime.Today;
-            StartDate.Text = today.AddDays(-7).ToLongDateString();
-            EndDate.Text = today.ToLongDateString();
+            StartDate.SelectedDate = today.AddDays(-7);
+            EndDate.SelectedDate = today;
 
             setDatabasePath();
             updateView();
@@ -96,8 +96,8 @@ namespace VRCLogAnalyzer
             _dtos = new ObservableCollection<Dto>();
 
             //VRCのログの日付の区切りがドットなので、それに揃える
-            string queryStartDate = StartDate.Text.Replace("/", ".");
-            string queryEndDate = EndDate.Text.Replace("/", ".") + " 23:59:59";
+            string queryStartDate = StartDate.SelectedDate?.ToString("yyyy.MM.dd", CultureInfo.InvariantCulture) ?? "";
+            string queryEndDate = EndDate.SelectedDate?.ToString("yyyy.MM.dd", CultureInfo.InvariantCulture) + " 23:59:59" ?? "";
 
             //LIKE句で部分一致させる
             //LIKE句でエスケープが必要な特殊文字が含まれていたら、「|」でエスケープ処理する
